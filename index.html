@@ -5,330 +5,203 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>HanzyyOffc Produk</title>
   <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css"/>
   <style>
     body {
       font-family: 'Poppins', sans-serif;
-      background: #0f0f0f;
-      color: white;
       margin: 0;
       padding: 0;
-      opacity: 0;
-      transition: opacity 0.5s ease, background 0.5s, color 0.5s;
-    }
-    #preloader {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
+      color: white;
       background: #0f0f0f;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 9999;
     }
-    .spinner {
-      width: 60px;
-      height: 60px;
-      border: 6px solid #00ffe0;
-      border-top-color: transparent;
-      border-radius: 50%;
-      animation: spin 0.8s linear infinite;
-    }
-    @keyframes spin { to { transform: rotate(360deg); } }
     header {
       text-align: center;
       padding: 40px 20px 20px;
     }
     .logo-circle {
-      width: 120px;
-      height: 120px;
+      width: 90px;
+      height: 90px;
       border-radius: 50%;
-      border: 4px solid #00ffe0;
+      border: 3px solid #00ffe0;
       margin-bottom: 10px;
     }
-    h1 { color: #00ffe0; font-size: 2rem; }
-    .theme-toggle {
-      position: fixed;
-      top: 20px;
-      left: 20px;
-      background: #00ffe0;
-      color: black;
-      padding: 8px 12px;
-      border-radius: 8px;
-      cursor: pointer;
-      z-index: 1000;
-      font-weight: bold;
+    h1 {
+      color: #00ffe0;
+      font-size: 1.8rem;
+      margin: 0;
     }
-    #notif {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      background: #00ffe0;
-      color: black;
-      padding: 10px;
-      border-radius: 8px;
-      display: none;
-      z-index: 999;
-    }
-    #whatsapp-float, #telegram-float {
-      position: fixed;
-      bottom: 80px;
-      right: 20px;
-      z-index: 999;
-    }
-    #telegram-float {
-      bottom: 20px;
-    }
-    .float-btn {
-      display: inline-block;
-      background: #00ffe0;
-      color: black;
-      padding: 10px 15px;
-      margin-top: 10px;
-      border-radius: 50px;
-      font-weight: bold;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-      text-decoration: none;
-    }
-    .products {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 20px;
-      padding: 20px;
-    }
-    .card {
-      background: #1a1a1a;
-      border-radius: 12px;
-      padding: 10px;
-      animation: fadeIn 0.3s ease forwards;
-      transform: scale(0.95);
-      opacity: 0;
-    }
-    @keyframes fadeIn {
-      to {
-        opacity: 1;
-        transform: scale(1);
-      }
-    }
-    .card img {
+    .swiper {
       width: 100%;
-      border-radius: 8px;
-      height: 160px;
+      padding: 20px 0;
+    }
+    .swiper-slide {
+      background: #1a1a1a;
+      border-radius: 10px;
+      padding: 10px;
+      text-align: center;
+      width: 250px;
+    }
+    .swiper-slide img {
+      width: 100%;
+      height: 150px;
       object-fit: cover;
+      border-radius: 8px;
     }
     .btn {
       display: inline-block;
-      margin-top: 10px;
       background: #00ffe0;
       color: black;
-      padding: 8px 12px;
-      border-radius: 8px;
+      padding: 6px 12px;
+      border-radius: 6px;
       text-decoration: none;
-      margin-right: 5px;
+      margin: 5px 5px;
+      font-size: 0.9rem;
     }
-    select, input[type=text] {
-      padding: 8px;
+    .checkout {
+      text-align: center;
+      margin: 30px;
+    }
+    .checkout textarea, .checkout input, .checkout select {
+      width: 80%;
+      margin: 10px 0;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #00ffe0;
       background: #1a1a1a;
       color: #00ffe0;
-      border: 1px solid #00ffe0;
-      border-radius: 6px;
-      margin: 5px;
     }
-    .pagination {
-      text-align: center;
-      margin-top: 20px;
-    }
-    .pagination button {
-      padding: 8px 15px;
-      margin: 5px;
-      border: none;
-      background: #00ffe0;
-      color: black;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-    footer {
-      text-align: center;
-      padding: 20px;
-      font-size: 14px;
-      color: #aaa;
+    .qris-img {
+      max-width: 200px;
+      border-radius: 10px;
+      margin: 10px auto;
+      display: none;
     }
   </style>
 </head>
 <body>
-<div id="preloader"><div class="spinner"></div></div>
-<div class="theme-toggle" onclick="toggleTheme()">🌗 Tema</div>
-<div id="notif">✅ Produk ditambahkan ke keranjang!</div>
-<div id="whatsapp-float">
-  <a href="https://wa.me/6288989566141" class="float-btn" target="_blank">💬 WhatsApp</a>
-</div>
-<div id="telegram-float">
-  <a href="https://t.me/XyHanzyy" class="float-btn" target="_blank">📨 Telegram</a>
-</div>
-<audio id="clickSound" src="https://www.soundjay.com/buttons/button-09.wav" preload="auto"></audio>
-<audio id="loadingSound" src="https://www.soundjay.com/button/beep-07.wav" preload="auto"></audio>
-
 <header>
-  <img src="https://files.catbox.moe/lx7ij2.jpg" class="logo-circle" />
-  <h1>HanzyyOffc Shop</h1>
-  <p>Produk digital & script pilihan terbaik</p>
+  <img src="https://g.top4top.io/p_347205kts1.jpg" class="logo-circle" />
+  <h1>HanzyyOffc Produk</h1>
+  <p>Digital Produk Unggulan & Script</p>
 </header>
 
-<div style="text-align: center;">
-  <input type="text" id="searchInput" placeholder="Cari produk..." oninput="filterProduk()">
-  <select id="kategoriSelect" onchange="filterProduk()">
-    <option value="all">Semua Kategori</option>
-    <option value="whatsapp">WhatsApp</option>
-    <option value="telegram">Telegram</option>
-    <option value="tools">Tools</option>
-    <option value="panel">Panel</option>
-  </select>
-  <select id="sortSelect" onchange="filterProduk()">
-    <option value="termurah">Harga Termurah</option>
-    <option value="termahal">Harga Termahal</option>
-  </select>
-  <button onclick="lihatKeranjang()">🛒 Lihat Keranjang</button>
+<!-- SLIDER PRODUK -->
+<div class="swiper mySwiper">
+  <div class="swiper-wrapper" id="sliderContainer"></div>
 </div>
 
-<div class="pagination">
-  <button onclick="loadPage(1)">🏠 Halaman 1</button>
-  <button onclick="loadPage(2)">📦 Halaman 2</button>
+<!-- CHECKOUT AREA -->
+<div class="checkout">
+  <h2>🛒 Checkout</h2>
+  <input type="text" id="namaPembeli" placeholder="Masukkan nama kamu" />
+  <select id="metodeBayar" onchange="showQRIS()">
+    <option value="QRIS">QRIS</option>
+    <option value="DANA">DANA</option>
+    <option value="OVO">OVO</option>
+  </select><br>
+  <textarea id="checkoutData" readonly></textarea><br>
+  <img id="qrisImg" class="qris-img" src="https://k.top4top.io/p_3474n29381.jpg" alt="QRIS Pembayaran" />
+  <br>
+  <a class="btn" onclick="checkoutWA()">📱 Kirim ke WhatsApp</a>
+  <a class="btn" onclick="checkoutTelegram()">📨 Kirim ke Telegram</a>
 </div>
-<div class="products" id="productContainer"></div>
-<footer>
-  📢 Channel: <a href="https://whatsapp.com/channel/0029VbAyHKY1dAw4yEpr0u0J" target="_blank">WhatsApp Channel</a><br>
-  &copy; 2025 HanzyyOffc
-</footer>
 
-<!-- SCRIPT PRODUK -->
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
 <script>
-AOS.init();
-
-let pageIndex = 1;
-let allProducts = [];
-
-const productsPage1 = [
-  { title: "Script WhatsApp", desc: "Bot multi fitur.", kategori: "whatsapp", harga: 75000, img: "https://files.catbox.moe/lx7ij2.jpg" },
-  { title: "Obfuscator JS", desc: "Proteksi script.", kategori: "tools", harga: 50000, img: "https://files.catbox.moe/lx7ij2.jpg" },
-  { title: "Struk QR Generator", desc: "Struk otomatis.", kategori: "tools", harga: 45000, img: "https://files.catbox.moe/lx7ij2.jpg" }
-];
-const productsPage2 = [
-  { title: "Functions WhatsApp", desc: "150+ fitur func.", kategori: "whatsapp", harga: 85000, img: "https://files.catbox.moe/lx7ij2.jpg" },
-  { title: "Bot Join Otomatis", desc: "Auto masuk grup WA.", kategori: "whatsapp", harga: 40000, img: "https://files.catbox.moe/lx7ij2.jpg" },
-  { title: "Premium Enkripsi", desc: "Proteksi anti decode.", kategori: "tools", harga: 95000, img: "https://files.catbox.moe/lx7ij2.jpg" }
-];
-
-function loadPage(page) {
-  pageIndex = page;
-  if (page === 1) allProducts = [...productsPage1];
-  else if (page === 2) allProducts = [...productsPage2];
-  filterProduk();
-}
-
-function renderPage() {
-  const container = document.getElementById('productContainer');
-  container.innerHTML = '';
-  const items = allProducts;
-  if (items.length === 0) {
-    container.innerHTML = '<p style="text-align:center;">Produk tidak ditemukan.</p>';
-    return;
-  }
-  items.forEach(item => {
-    container.innerHTML += `
-      <div class="card" data-aos="zoom-in">
-        <img src="${item.img}" alt="${item.title}">
-        <div class="card-content">
-          <h3>${item.title}</h3>
-          <p>${item.desc}</p>
-          <p>Harga: Rp${item.harga.toLocaleString()}</p>
-          <a class="btn" onclick="tambahKeranjang('${item.title}', ${item.harga})">🛒 Tambah</a>
-          <a class="btn" href="https://t.me/XyHanzyy" target="_blank">📩 Beli</a>
-        </div>
-      </div>
+  AOS.init();
+  const products = [
+    { title: "Script WhatsApp", desc: "Bot multi fitur.", harga: 75000, img: "https://files.catbox.moe/lx7ij2.jpg" },
+    { title: "Obfuscator JS", desc: "Proteksi script.", harga: 50000, img: "https://files.catbox.moe/lx7ij2.jpg" },
+    { title: "Struk QR Generator", desc: "Struk otomatis.", harga: 45000, img: "https://files.catbox.moe/lx7ij2.jpg" },
+    { title: "Bot Join Grup", desc: "Auto grup WA.", harga: 40000, img: "https://files.catbox.moe/lx7ij2.jpg" },
+    { title: "Bot Telegram", desc: "Respon cepat Telegram.", harga: 60000, img: "https://files.catbox.moe/lx7ij2.jpg" }
+  ];
+  const slider = document.getElementById('sliderContainer');
+  let keranjang = [];
+  products.forEach((p, i) => {
+    const el = document.createElement('div');
+    el.className = 'swiper-slide';
+    el.innerHTML = `
+      <img src="${p.img}" alt="${p.title}" />
+      <h3>${p.title}</h3>
+      <p>${p.desc}</p>
+      <p>Rp${p.harga.toLocaleString()}</p>
+      <a class="btn" onclick="addToCart(${i})">🛒 Tambah</a>
     `;
+    slider.appendChild(el);
   });
-}
-
-function filterProduk() {
-  const keyword = document.getElementById('searchInput').value.toLowerCase();
-  const kategori = document.getElementById('kategoriSelect').value;
-  const sort = document.getElementById('sortSelect').value;
-  let filtered = (pageIndex === 1 ? productsPage1 : productsPage2).filter(p =>
-    (p.title.toLowerCase().includes(keyword) || p.desc.toLowerCase().includes(keyword)) &&
-    (kategori === 'all' || p.kategori === kategori)
-  );
-  if (sort === 'termurah') filtered.sort((a, b) => a.harga - b.harga);
-  else filtered.sort((a, b) => b.harga - a.harga);
-  allProducts = filtered;
-  renderPage();
-}
-
-function tambahKeranjang(nama, harga) {
-  const click = document.getElementById("clickSound"); click.play();
-  const keranjang = JSON.parse(localStorage.getItem('keranjang')) || [];
-  keranjang.push({ nama, harga });
-  localStorage.setItem('keranjang', JSON.stringify(keranjang));
-  tampilkanNotifikasi('✅ Produk ditambahkan ke keranjang!');
-}
-
-function lihatKeranjang() {
-  const keranjang = JSON.parse(localStorage.getItem('keranjang')) || [];
-  if (keranjang.length === 0) return alert('Keranjang kosong.');
-  let isi = '🛍️ Daftar Keranjang:\n';
-  let total = 0;
-  keranjang.forEach((item, i) => {
-    isi += `${i + 1}. ${item.nama} - Rp${item.harga.toLocaleString()}\n`;
-    total += item.harga;
+  new Swiper(".mySwiper", {
+    slidesPerView: 'auto',
+    spaceBetween: 15,
+    freeMode: true,
   });
-  isi += `\n💰 Total: Rp${total.toLocaleString()}`;
-  isi += `\n\n❌ Masukkan nomor item yang ingin dihapus (atau kosongkan):`;
-  const hapus = prompt(isi);
-  if (hapus && !isNaN(hapus)) hapusItemKeranjang(parseInt(hapus) - 1);
-}
-
-function hapusItemKeranjang(index) {
-  const keranjang = JSON.parse(localStorage.getItem('keranjang')) || [];
-  if (index >= 0 && index < keranjang.length) {
-    const nama = keranjang[index].nama;
-    keranjang.splice(index, 1);
-    localStorage.setItem('keranjang', JSON.stringify(keranjang));
-    tampilkanNotifikasi(`❌ ${nama} dihapus dari keranjang`);
+  function addToCart(index) {
+    keranjang.push(products[index]);
+    alert(`✅ ${products[index].title} ditambahkan ke keranjang.`);
+    updateCheckoutText();
   }
-}
-
-function tampilkanNotifikasi(pesan) {
-  const notif = document.getElementById('notif');
-  notif.innerText = pesan;
-  notif.style.display = 'block';
-  setTimeout(() => notif.style.display = 'none', 3000);
-}
-
-// Tema otomatis berdasarkan jam
-const hour = new Date().getHours();
-if (hour >= 6 && hour < 18) {
-  document.body.style.background = '#f4f4f4';
-  document.body.style.color = '#111';
-}
-
-// Manual toggle tema
-let dark = true;
-function toggleTheme() {
-  dark = !dark;
-  document.body.style.background = dark ? '#0f0f0f' : '#f4f4f4';
-  document.body.style.color = dark ? 'white' : '#111';
-}
-
-window.onload = function () {
-  loadPage(1);
-  const preloader = document.getElementById("preloader");
-  const audio = document.getElementById("loadingSound");
-  preloader.style.opacity = "0";
-  setTimeout(() => {
-    preloader.style.display = "none";
-    document.body.style.opacity = "1";
-    audio.play();
-  }, 500);
-};
+  function updateCheckoutText() {
+    let isi = "";
+    let total = 0;
+    keranjang.forEach((item, i) => {
+      isi += `${i+1}. ${item.title} - Rp${item.harga.toLocaleString()}\n`;
+      total += item.harga;
+    });
+    isi += `\nTotal: Rp${total.toLocaleString()}`;
+    document.getElementById('checkoutData').value = isi;
+  }
+  function showQRIS() {
+    const metode = document.getElementById("metodeBayar").value;
+    const qris = document.getElementById("qrisImg");
+    qris.style.display = metode === "QRIS" ? "block" : "none";
+  }
+  async function kirimNotifikasiTelegram(pesan) {
+    const token = "7916388602:AAG1oh3j-1Hbpfg4AJu3Y7gcyu_9SiC3PR4";
+    const chatID = "-1002526485120";
+    const url = `https://api.telegram.org/bot${token}/sendMessage`;
+    try {
+      await fetch(url, {
+        method: "POST",
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          chat_id: chatID,
+          text: pesan,
+          parse_mode: "Markdown"
+        })
+      });
+    } catch (err) {
+      console.error("Gagal kirim ke Telegram:", err);
+    }
+  }
+  function formatCheckoutText() {
+    const nama = document.getElementById('namaPembeli').value.trim() || "(Tanpa nama)";
+    const metode = document.getElementById('metodeBayar').value;
+    let isi = `*🛒 Checkout Baru*\n\n*👤 Nama:* ${nama}\n*💳 Metode:* ${metode}\n\n*📦 Produk:*\n`;
+    let total = 0;
+    keranjang.forEach((item, i) => {
+      isi += `${i + 1}. ${item.title} — Rp${item.harga.toLocaleString()}\n`;
+      total += item.harga;
+    });
+    const waktu = new Date().toLocaleString('id-ID', { timeZone: 'Asia/Jakarta' });
+    isi += `\n💰 *Total:* Rp${total.toLocaleString()}`;
+    isi += `\n📅 Waktu: ${waktu}`;
+    return isi;
+  }
+  function checkoutWA() {
+    if (keranjang.length === 0) return alert("Keranjang kosong!");
+    const isi = formatCheckoutText();
+    kirimNotifikasiTelegram(isi);
+    const url = `https://wa.me/6288989566141?text=${encodeURIComponent(isi.replace(/\*/g, ''))}`;
+    window.open(url, '_blank');
+  }
+  function checkoutTelegram() {
+    if (keranjang.length === 0) return alert("Keranjang kosong!");
+    const isi = formatCheckoutText();
+    kirimNotifikasiTelegram(isi);
+    const url = `https://t.me/share/url?url=https://hanzyy.site&text=${encodeURIComponent(isi.replace(/\*/g, ''))}`;
+    window.open(url, '_blank');
+  }
 </script>
 </body>
 </html>

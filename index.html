@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -134,22 +135,16 @@
   </style>
 </head>
 <body>
-
-<!-- LOADER -->
 <div id="preloader">
   <div class="spinner"></div>
 </div>
 <audio id="loadingSound" src="https://www.soundjay.com/button/beep-07.wav" preload="auto"></audio>
-
-<!-- NOTIF -->
 <div id="notif">✅ Produk ditambahkan ke keranjang!</div>
-
 <header>
   <img src="https://files.catbox.moe/lx7ij2.jpg" class="logo-circle" />
   <h1>HanzyyOffc Shop</h1>
   <p>Produk digital & script pilihan terbaik</p>
 </header>
-
 <div style="text-align: center;">
   <input type="text" id="searchInput" placeholder="Cari produk..." oninput="filterProduk()">
   <select id="kategoriSelect" onchange="filterProduk()">
@@ -165,142 +160,116 @@
   </select>
   <button onclick="lihatKeranjang()">🛒 Lihat Keranjang</button>
 </div>
-
-<div class="products" id="productContainer"></div>
-
 <div class="pagination">
-  <button onclick="changePage(-1)">← Sebelumnya</button>
-  <button onclick="changePage(1)">Berikutnya →</button>
+  <button onclick="loadPage(1)">🏠 Halaman 1</button>
+  <button onclick="loadPage(2)">📦 Halaman 2</button>
 </div>
-
+<div class="products" id="productContainer"></div>
 <footer>
   📢 Channel: <a href="https://whatsapp.com/channel/0029VbAyHKY1dAw4yEpr0u0J" target="_blank">WhatsApp Channel</a><br>
   &copy; 2025 HanzyyOffc
 </footer>
-
 <script>
-  // Produk list
-  const allProducts = [
-    { title: "Script WhatsApp", desc: "Bot multi fitur.", kategori: "whatsapp", harga: 75000, img: "https://g.top4top.io/p_347205kts1.jpg" },
-    { title: "Obfuscator JS", desc: "Proteksi script.", kategori: "tools", harga: 50000, img: "https://g.top4top.io/p_347205kts1.jpg" },
-    { title: "Struk QR Generator", desc: "Struk otomatis.", kategori: "tools", harga: 45000, img: "https://g.top4top.io/p_347205kts1.jpg" },
-    { title: "Bot Telegram", desc: "Auto reply.", kategori: "telegram", harga: 60000, img: "https://g.top4top.io/p_347205kts1.jpg" },
-    { title: "Panel Hosting", desc: "Deploy script.", kategori: "panel", harga: 100000, img: "https://g.top4top.io/p_347205kts1.jpg" },
-    { title: "Tools Premium", desc: "Alat digital.", kategori: "tools", harga: 80000, img: "https://g.top4top.io/p_347205kts1.jpg" }
-  ];
-
-  let filteredProducts = [...allProducts];
-  let currentPage = 0;
-  const perPage = 3;
-
-  function renderPage() {
-    const container = document.getElementById('productContainer');
-    container.innerHTML = '';
-    const start = currentPage * perPage;
-    const items = filteredProducts.slice(start, start + perPage);
-
-    if (items.length === 0) {
-      container.innerHTML = '<p style="text-align:center;">Produk tidak ditemukan.</p>';
-      return;
-    }
-
-    items.forEach(item => {
-      container.innerHTML += `
-        <div class="card">
-          <img src="${item.img}" alt="${item.title}">
-          <div class="card-content">
-            <h3>${item.title}</h3>
-            <p>${item.desc}</p>
-            <p>Harga: Rp${item.harga.toLocaleString()}</p>
-            <a class="btn" onclick="tambahKeranjang('${item.title}', ${item.harga})">🛒 Tambah</a>
-            <a class="btn" href="https://t.me/XyHanzyy" target="_blank">📩 Beli</a>
-          </div>
+let pageIndex = 1;
+let allProducts = [];
+const productsPage1 = [
+  { title: "Script WhatsApp", desc: "Bot multi fitur.", kategori: "whatsapp", harga: 75000, img: "https://files.catbox.moe/lx7ij2.jpg" },
+  { title: "Obfuscator JS", desc: "Proteksi script.", kategori: "tools", harga: 50000, img: "https://files.catbox.moe/lx7ij2.jpg" },
+  { title: "Struk QR Generator", desc: "Struk otomatis.", kategori: "tools", harga: 45000, img: "https://files.catbox.moe/lx7ij2.jpg" }
+];
+const productsPage2 = [
+  { title: "Functions WhatsApp", desc: "150+ fitur func.", kategori: "whatsapp", harga: 85000, img: "https://files.catbox.moe/lx7ij2.jpg" },
+  { title: "Bot Join Otomatis", desc: "Auto masuk grup WA.", kategori: "whatsapp", harga: 40000, img: "https://files.catbox.moe/lx7ij2.jpg" },
+  { title: "Premium Enkripsi", desc: "Proteksi anti decode.", kategori: "tools", harga: 95000, img: "https://files.catbox.moe/lx7ij2.jpg" }
+];
+function loadPage(page) {
+  pageIndex = page;
+  if (pageIndex === 1) allProducts = [...productsPage1];
+  else if (pageIndex === 2) allProducts = [...productsPage2];
+  filterProduk();
+}
+function renderPage() {
+  const container = document.getElementById('productContainer');
+  container.innerHTML = '';
+  const items = allProducts;
+  if (items.length === 0) {
+    container.innerHTML = '<p style="text-align:center;">Produk tidak ditemukan.</p>';
+    return;
+  }
+  items.forEach(item => {
+    container.innerHTML += `
+      <div class="card">
+        <img src="${item.img}" alt="${item.title}">
+        <div class="card-content">
+          <h3>${item.title}</h3>
+          <p>${item.desc}</p>
+          <p>Harga: Rp${item.harga.toLocaleString()}</p>
+          <a class="btn" onclick="tambahKeranjang('${item.title}', ${item.harga})">🛒 Tambah</a>
+          <a class="btn" href="https://t.me/XyHanzyy" target="_blank">📩 Beli</a>
         </div>
-      `;
-    });
-  }
-
-  function filterProduk() {
-    const keyword = document.getElementById('searchInput').value.toLowerCase();
-    const kategori = document.getElementById('kategoriSelect').value;
-    const sort = document.getElementById('sortSelect').value;
-
-    filteredProducts = allProducts.filter(p =>
-      (p.title.toLowerCase().includes(keyword) || p.desc.toLowerCase().includes(keyword)) &&
-      (kategori === 'all' || p.kategori === kategori)
-    );
-
-    if (sort === 'termurah') {
-      filteredProducts.sort((a, b) => a.harga - b.harga);
-    } else {
-      filteredProducts.sort((a, b) => b.harga - a.harga);
-    }
-
-    currentPage = 0;
-    renderPage();
-  }
-
-  function changePage(offset) {
-    const maxPage = Math.floor(filteredProducts.length / perPage);
-    currentPage += offset;
-    if (currentPage < 0) currentPage = 0;
-    if (currentPage > maxPage) currentPage = maxPage;
-    renderPage();
-  }
-
-  function tambahKeranjang(nama, harga) {
-    const keranjang = JSON.parse(localStorage.getItem('keranjang')) || [];
-    keranjang.push({ nama, harga });
-    localStorage.setItem('keranjang', JSON.stringify(keranjang));
-    tampilkanNotifikasi('✅ Produk ditambahkan ke keranjang!');
-  }
-
-  function tampilkanNotifikasi(pesan) {
-    const notif = document.getElementById('notif');
-    notif.innerText = pesan;
-    notif.style.display = 'block';
-    setTimeout(() => notif.style.display = 'none', 3000);
-  }
-
-  function lihatKeranjang() {
-    const keranjang = JSON.parse(localStorage.getItem('keranjang')) || [];
-    if (keranjang.length === 0) return alert('Keranjang kosong.');
-
-    let isi = '🛍️ Daftar Keranjang:\\n';
-    let total = 0;
-    keranjang.forEach((item, i) => {
-      isi += `${i + 1}. ${item.nama} - Rp${item.harga.toLocaleString()}\\n`;
-      total += item.harga;
-    });
-    isi += `\\n💰 Total: Rp${total.toLocaleString()}`;
-    isi += `\\n\\n❌ Masukkan nomor item yang ingin dihapus (atau kosongkan):`;
-
-    const hapus = prompt(isi);
-    if (hapus && !isNaN(hapus)) hapusItemKeranjang(parseInt(hapus) - 1);
-  }
-
-  function hapusItemKeranjang(index) {
-    const keranjang = JSON.parse(localStorage.getItem('keranjang')) || [];
-    if (index >= 0 && index < keranjang.length) {
-      const nama = keranjang[index].nama;
-      keranjang.splice(index, 1);
-      localStorage.setItem('keranjang', JSON.stringify(keranjang));
-      tampilkanNotifikasi(`❌ ${nama} dihapus dari keranjang`);
-    }
-  }
-
-  // Preloader + suara
-  window.addEventListener("load", function () {
-    const preloader = document.getElementById("preloader");
-    const audio = document.getElementById("loadingSound");
-    preloader.style.opacity = "0";
-    setTimeout(() => {
-      preloader.style.display = "none";
-      document.body.style.opacity = "1";
-      audio.play();
-    }, 500);
-    renderPage();
+      </div>
+    `;
   });
+}
+function filterProduk() {
+  const keyword = document.getElementById('searchInput').value.toLowerCase();
+  const kategori = document.getElementById('kategoriSelect').value;
+  const sort = document.getElementById('sortSelect').value;
+  let filtered = allProducts.filter(p =>
+    (p.title.toLowerCase().includes(keyword) || p.desc.toLowerCase().includes(keyword)) &&
+    (kategori === 'all' || p.kategori === kategori)
+  );
+  if (sort === 'termurah') filtered.sort((a, b) => a.harga - b.harga);
+  else filtered.sort((a, b) => b.harga - a.harga);
+  allProducts = filtered;
+  renderPage();
+}
+function tambahKeranjang(nama, harga) {
+  const keranjang = JSON.parse(localStorage.getItem('keranjang')) || [];
+  keranjang.push({ nama, harga });
+  localStorage.setItem('keranjang', JSON.stringify(keranjang));
+  tampilkanNotifikasi('✅ Produk ditambahkan ke keranjang!');
+}
+function tampilkanNotifikasi(pesan) {
+  const notif = document.getElementById('notif');
+  notif.innerText = pesan;
+  notif.style.display = 'block';
+  setTimeout(() => notif.style.display = 'none', 3000);
+}
+function lihatKeranjang() {
+  const keranjang = JSON.parse(localStorage.getItem('keranjang')) || [];
+  if (keranjang.length === 0) return alert('Keranjang kosong.');
+  let isi = '🛍️ Daftar Keranjang:\n';
+  let total = 0;
+  keranjang.forEach((item, i) => {
+    isi += `${i + 1}. ${item.nama} - Rp${item.harga.toLocaleString()}\n`;
+    total += item.harga;
+  });
+  isi += `\n💰 Total: Rp${total.toLocaleString()}`;
+  isi += `\n\n❌ Masukkan nomor item yang ingin dihapus (atau kosongkan):`;
+  const hapus = prompt(isi);
+  if (hapus && !isNaN(hapus)) hapusItemKeranjang(parseInt(hapus) - 1);
+}
+function hapusItemKeranjang(index) {
+  const keranjang = JSON.parse(localStorage.getItem('keranjang')) || [];
+  if (index >= 0 && index < keranjang.length) {
+    const nama = keranjang[index].nama;
+    keranjang.splice(index, 1);
+    localStorage.setItem('keranjang', JSON.stringify(keranjang));
+    tampilkanNotifikasi(`❌ ${nama} dihapus dari keranjang`);
+  }
+}
+window.onload = function () {
+  loadPage(1);
+  const preloader = document.getElementById("preloader");
+  const audio = document.getElementById("loadingSound");
+  preloader.style.opacity = "0";
+  setTimeout(() => {
+    preloader.style.display = "none";
+    document.body.style.opacity = "1";
+    audio.play();
+  }, 500);
+};
 </script>
 </body>
 </html>

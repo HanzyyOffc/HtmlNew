@@ -1,122 +1,189 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Checkout HanzyyOffc Shop</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>HanzyyOffc Produk</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <style>
+    /* RESET */
+    * {margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif;}
+
     body {
-      font-family: 'Segoe UI', sans-serif;
-      background: #f9fafb;
-      padding: 2rem;
-      color: #111;
-    }
-    h2 {
-      text-align: center;
-      margin-bottom: 1rem;
-    }
-    form {
-      max-width: 500px;
-      margin: auto;
-      background: white;
-      padding: 2rem;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    }
-    input, select, button {
-      width: 100%;
-      padding: 10px;
-      margin: 8px 0;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-    }
-    button {
-      background: #10b981;
+      background: #0f0f0f;
       color: white;
-      border: none;
-      cursor: pointer;
+      overflow-x: hidden;
+    }
+
+    /* LOADING SCREEN */
+    #loader {
+      position: fixed;
+      inset: 0;
+      background: black;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      animation: fadeOut 2s forwards 3s;
+    }
+
+    .anime-text {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 2rem;
+      color: #00ffe0;
+      animation: flicker 1s infinite alternate;
+    }
+
+    @keyframes flicker {
+      0% { opacity: 0.3; text-shadow: 0 0 5px #00ffe0; }
+      100% { opacity: 1; text-shadow: 0 0 20px #00ffe0, 0 0 30px #00ffe0; }
+    }
+
+    @keyframes fadeOut {
+      to {opacity: 0; visibility: hidden;}
+    }
+
+    /* HEADER */
+    header {
+      padding: 60px 20px 20px;
+      text-align: center;
+      animation: slideDown 1.5s ease-out;
+    }
+
+    header h1 {
+      font-size: 2.5rem;
+      color: #00ffe0;
+      margin-bottom: 10px;
+    }
+
+    header p {
+      font-size: 1rem;
+      color: #ccc;
+    }
+
+    @keyframes slideDown {
+      0% {transform: translateY(-50px); opacity: 0;}
+      100% {transform: translateY(0); opacity: 1;}
+    }
+
+    /* PRODUK GRID */
+    .products {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      padding: 40px 20px;
+    }
+
+    .card {
+      background: #1a1a1a;
+      border-radius: 12px;
+      overflow: hidden;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 0 20px rgba(0,255,224,0.2);
+    }
+
+    .card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+    }
+
+    .card-content {
+      padding: 15px;
+    }
+
+    .card-content h3 {
+      margin-bottom: 8px;
+      color: #00ffe0;
+    }
+
+    .btn {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 10px 15px;
+      background: #00ffe0;
+      color: black;
+      border-radius: 8px;
+      font-weight: bold;
+      text-decoration: none;
+      transition: 0.2s ease;
+    }
+
+    .btn:hover {
+      background: #00ccba;
+    }
+
+    /* FOOTER / CHANNEL */
+    footer {
+      text-align: center;
+      padding: 30px 20px;
+      font-size: 14px;
+      color: #aaa;
+      background: #111;
+    }
+
+    footer a {
+      color: #00ffe0;
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
     }
   </style>
 </head>
 <body>
+  <!-- LOADING -->
+  <div id="loader">
+    <div class="anime-text">⚡ Memuat Hanzyy Produk...</div>
+  </div>
 
-  <h2>Checkout HanzyyOffc Shop</h2>
+  <!-- HEADER -->
+  <header>
+    <h1>🛒 HanzyyOffc Shop</h1>
+    <p>Produk digital & script pilihan terbaik!</p>
+  </header>
 
-  <form id="checkoutForm">
-    <input type="text" id="nama" placeholder="Nama lengkap" required />
-    <input type="email" id="email" placeholder="Email aktif" required />
-    <select id="produk" required>
-      <option value="">Pilih Produk</option>
-      <option>Script WhatsApp</option>
-      <option>Bot Telegram</option>
-      <option>Panel Admin</option>
-    </select>
-    <select id="metode" required>
-      <option value="">Metode Pembayaran</option>
-      <option>QRIS</option>
-      <option>DANA</option>
-      <option>OVO</option>
-    </select>
-    <button type="submit">Kirim & Unduh Struk</button>
-  </form>
+  <!-- PRODUK -->
+  <section class="products">
+    <div class="card">
+      <img src="https://via.placeholder.com/300x180?text=Script+WA+Bot" alt="Produk 1">
+      <div class="card-content">
+        <h3>Script Bot WhatsApp</h3>
+        <p>Fitur lengkap, anti-crash, cocok untuk jualan.</p>
+        <a class="btn" href="https://t.me/XyHanzyy" target="_blank">Beli via Telegram</a>
+      </div>
+    </div>
 
-  <script>
-    const LOGO_URL = "https://files.catbox.moe/lx7ij2.jpg";
-    const QR_URL = "https://k.top4top.io/p_3474n29381.jpg";
-    const TOKO = "HanzyyOffc Shop";
+    <div class="card">
+      <img src="https://via.placeholder.com/300x180?text=Obfuscator+Tool" alt="Produk 2">
+      <div class="card-content">
+        <h3>Obfuscator JS</h3>
+        <p>Proteksi script kamu dari pencuri kode.</p>
+        <a class="btn" href="https://t.me/XyHanzyy" target="_blank">Beli via Telegram</a>
+      </div>
+    </div>
 
-    document.getElementById("checkoutForm").addEventListener("submit", async function (e) {
-      e.preventDefault();
+    <div class="card">
+      <img src="https://via.placeholder.com/300x180?text=Premium+Tools" alt="Produk 3">
+      <div class="card-content">
+        <h3>Tools Premium</h3>
+        <p>Berbagai alat untuk WhatsApp & Telegram Bot.</p>
+        <a class="btn" href="https://t.me/XyHanzyy" target="_blank">Beli via Telegram</a>
+      </div>
+    </div>
 
-      const nama = document.getElementById("nama").value;
-      const email = document.getElementById("email").value;
-      const produk = document.getElementById("produk").value;
-      const metode = document.getElementById("metode").value;
+    <!-- Tambah produk sesuka hati -->
+  </section>
 
-      // Kirim ke WhatsApp
-      const waNumber = "6282264176976"; // Ganti nomormu
-      const waMessage = `Halo kak, saya ingin order:\n\nNama: ${nama}\nEmail: ${email}\nProduk: ${produk}\nPembayaran: ${metode}`;
-      window.open(`https://wa.me/${waNumber}?text=${encodeURIComponent(waMessage)}`, '_blank');
-
-      // Generate struk PDF
-      const { jsPDF } = window.jspdf;
-      const doc = new jsPDF();
-
-      const logo = await loadImage(LOGO_URL);
-      const qr = await loadImage(QR_URL);
-
-      doc.addImage(logo, "JPEG", 70, 10, 70, 20);
-      doc.setFontSize(14);
-      doc.text("STRUK PEMBAYARAN", 70, 40);
-      doc.setFontSize(12);
-      doc.text(`Nama     : ${nama}`, 20, 50);
-      doc.text(`Email    : ${email}`, 20, 58);
-      doc.text(`Produk   : ${produk}`, 20, 66);
-      doc.text(`Pembayaran : ${metode}`, 20, 74);
-      doc.text(`Toko     : ${TOKO}`, 20, 82);
-      doc.text(`Status   : Menunggu Pembayaran`, 20, 90);
-      doc.addImage(qr, "JPEG", 70, 100, 70, 70);
-      doc.text("Silakan scan QR untuk melakukan pembayaran.", 30, 180);
-
-      doc.save(`Struk_${nama.replace(/\s/g, "_")}.pdf`);
-    });
-
-    async function loadImage(url) {
-      const res = await fetch(url);
-      const blob = await res.blob();
-      return await toBase64(blob);
-    }
-
-    function toBase64(blob) {
-      return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onloadend = () => resolve(reader.result);
-        reader.onerror = reject;
-        reader.readAsDataURL(blob);
-      });
-    }
-  </script>
-
+  <!-- FOOTER -->
+  <footer>
+    📢 Channel resmi: <a href="https://whatsapp.com/channel/0029VbAyHKY1dAw4yEpr0u0J" target="_blank">Klik untuk join WhatsApp Channel</a><br/>
+    &copy; 2025 HanzyyOffc. All rights reserved.
+  </footer>
 </body>
 </html>

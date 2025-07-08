@@ -107,6 +107,7 @@
 
 <script>
   const passwordAdmin = "hanzyyadmin123";
+  const linkTelegram = "https://t.me/XyHanzyy";
 
   function kirimCheckout() {
     const nama = document.getElementById('nama').value.trim();
@@ -124,10 +125,8 @@
       waktu: new Date().toLocaleString()
     });
     localStorage.setItem('riwayatCheckout', JSON.stringify(riwayat));
-    alert('✅ Data checkout berhasil disimpan!');
-    document.getElementById('nama').value = '';
-    document.getElementById('metode').value = '';
-    document.getElementById('detail').value = '';
+    alert('✅ Checkout berhasil!\nSilakan lanjut hubungi admin via Telegram.');
+    window.location.href = linkTelegram;
   }
 
   function cekLogin() {

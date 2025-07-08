@@ -1,184 +1,122 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Modern Shop - Hanzyy</title>
-  <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout HanzyyOffc Shop</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <style>
-    :root {
-      --bg: #ffffff;
-      --text: #000000;
-      --card: #f3f3f3;
-    }
-    [data-theme="dark"] {
-      --bg: #111827;
-      --text: #f9fafb;
-      --card: #1f2937;
-    }
-    * {
-      margin: 0; padding: 0; box-sizing: border-box;
-      transition: all 0.3s ease;
-    }
     body {
       font-family: 'Segoe UI', sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      overflow-x: hidden;
+      background: #f9fafb;
+      padding: 2rem;
+      color: #111;
     }
-    .loader {
-      position: fixed;
-      width: 100vw; height: 100vh;
-      background: var(--bg);
-      display: flex; justify-content: center; align-items: center;
-      z-index: 9999;
+    h2 {
+      text-align: center;
+      margin-bottom: 1rem;
     }
-    .loader span {
-      font-size: 2rem;
-      animation: blink 1s infinite alternate;
-    }
-    @keyframes blink {
-      0% {opacity: 0.2;}
-      100% {opacity: 1;}
-    }
-    header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1rem 2rem;
-      background: var(--card);
-    }
-    .toggle {
-      background: #2563eb;
-      color: #fff;
-      padding: 6px 12px;
-      border-radius: 8px;
-      border: none;
-      cursor: pointer;
-    }
-    .login-box {
-      width: 100%;
-      max-width: 400px;
-      margin: 3rem auto;
-      background: var(--card);
+    form {
+      max-width: 500px;
+      margin: auto;
+      background: white;
       padding: 2rem;
       border-radius: 12px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-      animation: slideIn 0.8s ease forwards;
-      opacity: 0;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     }
-    @keyframes slideIn {
-      0% {transform: translateY(-40px); opacity: 0;}
-      100% {transform: translateY(0); opacity: 1;}
-    }
-    .login-box h2 {
-      margin-bottom: 1rem;
-      text-align: center;
-    }
-    .login-box input {
+    input, select, button {
       width: 100%;
-      margin: 0.5rem 0;
       padding: 10px;
-      border: 1px solid #ccc;
+      margin: 8px 0;
       border-radius: 8px;
-      background: var(--bg);
-      color: var(--text);
+      border: 1px solid #ccc;
     }
-    .login-box button {
-      width: 100%;
-      padding: 10px;
+    button {
       background: #10b981;
       color: white;
       border: none;
-      border-radius: 8px;
-      margin-top: 1rem;
-      cursor: pointer;
-    }
-    .shop-section {
-      padding: 2rem;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 1.5rem;
-    }
-    .product {
-      background: var(--card);
-      padding: 1rem;
-      border-radius: 12px;
-      text-align: center;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    }
-    .product img {
-      width: 100%;
-      border-radius: 12px;
-      margin-bottom: 1rem;
-    }
-    .product h3 {
-      margin-bottom: 0.5rem;
-    }
-    .product p {
-      font-size: 14px;
-      margin-bottom: 0.5rem;
-    }
-    .product button {
-      background: #3b82f6;
-      color: white;
-      border: none;
-      padding: 8px 12px;
-      border-radius: 8px;
       cursor: pointer;
     }
   </style>
 </head>
-<body data-theme="light">
-  <div class="loader" id="loader">
-    <span>Memuat...</span>
-  </div>
+<body>
 
-  <header>
-    <h2>🛍️ Hanzyy Shop</h2>
-    <button class="toggle" onclick="toggleTheme()">Ganti Tema</button>
-  </header>
+  <h2>Checkout HanzyyOffc Shop</h2>
 
-  <section class="login-box">
-    <h2>Login Pengguna</h2>
-    <input type="text" placeholder="Nama Pengguna">
-    <input type="password" placeholder="Kata Sandi">
-    <button>Masuk</button>
-  </section>
-
-  <section class="shop-section">
-    <div class="product">
-      <img src="https://via.placeholder.com/300x200" alt="Produk 1">
-      <h3>Produk A</h3>
-      <p>Script Bot WhatsApp Premium</p>
-      <button>Beli Sekarang</button>
-    </div>
-    <div class="product">
-      <img src="https://via.placeholder.com/300x200" alt="Produk 2">
-      <h3>Produk B</h3>
-      <p>Source Code Telegram</p>
-      <button>Beli Sekarang</button>
-    </div>
-    <div class="product">
-      <img src="https://via.placeholder.com/300x200" alt="Produk 3">
-      <h3>Produk C</h3>
-      <p>Web Panel Admin</p>
-      <button>Beli Sekarang</button>
-    </div>
-  </section>
+  <form id="checkoutForm">
+    <input type="text" id="nama" placeholder="Nama lengkap" required />
+    <input type="email" id="email" placeholder="Email aktif" required />
+    <select id="produk" required>
+      <option value="">Pilih Produk</option>
+      <option>Script WhatsApp</option>
+      <option>Bot Telegram</option>
+      <option>Panel Admin</option>
+    </select>
+    <select id="metode" required>
+      <option value="">Metode Pembayaran</option>
+      <option>QRIS</option>
+      <option>DANA</option>
+      <option>OVO</option>
+    </select>
+    <button type="submit">Kirim & Unduh Struk</button>
+  </form>
 
   <script>
-    // Loading screen
-    window.addEventListener("load", () => {
-      document.getElementById("loader").style.display = "none";
+    const LOGO_URL = "https://files.catbox.moe/lx7ij2.jpg";
+    const QR_URL = "https://k.top4top.io/p_3474n29381.jpg";
+    const TOKO = "HanzyyOffc Shop";
+
+    document.getElementById("checkoutForm").addEventListener("submit", async function (e) {
+      e.preventDefault();
+
+      const nama = document.getElementById("nama").value;
+      const email = document.getElementById("email").value;
+      const produk = document.getElementById("produk").value;
+      const metode = document.getElementById("metode").value;
+
+      // Kirim ke WhatsApp
+      const waNumber = "6282264176976"; // Ganti nomormu
+      const waMessage = `Halo kak, saya ingin order:\n\nNama: ${nama}\nEmail: ${email}\nProduk: ${produk}\nPembayaran: ${metode}`;
+      window.open(`https://wa.me/${waNumber}?text=${encodeURIComponent(waMessage)}`, '_blank');
+
+      // Generate struk PDF
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+
+      const logo = await loadImage(LOGO_URL);
+      const qr = await loadImage(QR_URL);
+
+      doc.addImage(logo, "JPEG", 70, 10, 70, 20);
+      doc.setFontSize(14);
+      doc.text("STRUK PEMBAYARAN", 70, 40);
+      doc.setFontSize(12);
+      doc.text(`Nama     : ${nama}`, 20, 50);
+      doc.text(`Email    : ${email}`, 20, 58);
+      doc.text(`Produk   : ${produk}`, 20, 66);
+      doc.text(`Pembayaran : ${metode}`, 20, 74);
+      doc.text(`Toko     : ${TOKO}`, 20, 82);
+      doc.text(`Status   : Menunggu Pembayaran`, 20, 90);
+      doc.addImage(qr, "JPEG", 70, 100, 70, 70);
+      doc.text("Silakan scan QR untuk melakukan pembayaran.", 30, 180);
+
+      doc.save(`Struk_${nama.replace(/\s/g, "_")}.pdf`);
     });
 
-    // Theme toggle
-    function toggleTheme() {
-      const body = document.body;
-      const currentTheme = body.getAttribute("data-theme");
-      body.setAttribute("data-theme", currentTheme === "dark" ? "light" : "dark");
+    async function loadImage(url) {
+      const res = await fetch(url);
+      const blob = await res.blob();
+      return await toBase64(blob);
+    }
+
+    function toBase64(blob) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onloadend = () => resolve(reader.result);
+        reader.onerror = reject;
+        reader.readAsDataURL(blob);
+      });
     }
   </script>
+
 </body>
 </html>

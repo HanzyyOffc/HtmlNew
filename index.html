@@ -71,6 +71,7 @@
 <div class="box" id="formCheckout">
   <h2>🛒 Form Checkout</h2>
   <input type="text" id="nama" placeholder="Nama Kamu">
+  <input type="tel" id="wa" placeholder="Nomor WhatsApp (08xxxxxxxxxx)">
   <select id="metode">
     <option value="">Pilih Metode Pembayaran</option>
     <option value="QRIS">QRIS</option>
@@ -93,6 +94,7 @@
     <thead>
       <tr>
         <th>Nama</th>
+        <th>WA</th>
         <th>Metode</th>
         <th>Detail</th>
         <th>Waktu</th>
@@ -111,20 +113,25 @@
 
   function kirimCheckout() {
     const nama = document.getElementById('nama').value.trim();
+    const wa = document.getElementById('wa').value.trim();
     const metode = document.getElementById('metode').value;
     const detail = document.getElementById('detail').value.trim();
-    if (!nama || !metode || !detail) {
+
+    if (!nama || !wa || !metode || !detail) {
       alert('Harap isi semua data!');
       return;
     }
+
     const riwayat = JSON.parse(localStorage.getItem('riwayatCheckout')) || [];
     riwayat.push({
       nama,
+      wa,
       metode,
       detail,
       waktu: new Date().toLocaleString()
     });
     localStorage.setItem('riwayatCheckout', JSON.stringify(riwayat));
+
     alert('✅ Checkout berhasil!\nSilakan lanjut hubungi admin via Telegram.');
     window.location.href = linkTelegram;
   }
@@ -145,13 +152,14 @@
     const tbody = document.getElementById('riwayatTable');
     tbody.innerHTML = '';
     if (data.length === 0) {
-      tbody.innerHTML = '<tr><td colspan="4" style="text-align:center">Belum ada data.</td></tr>';
+      tbody.innerHTML = '<tr><td colspan="5" style="text-align:center">Belum ada data.</td></tr>';
       return;
     }
     data.forEach(item => {
       const tr = document.createElement('tr');
       tr.innerHTML = `
         <td>${item.nama}</td>
+        <td><a href="https://wa.me/62${item.wa.replace(/^0/, '')}" style="color:#00ffe0" target="_blank">${item.wa}</a></td>
         <td>${item.metode}</td>
         <td><pre style="white-space:pre-wrap">${item.detail}</pre></td>
         <td>${item.waktu}</td>

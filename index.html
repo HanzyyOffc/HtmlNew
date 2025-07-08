@@ -1,206 +1,171 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>HanzyyOffc Produk</title>
-  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout & Admin Panel</title>
   <style>
     body {
-      font-family: 'Poppins', sans-serif;
-      margin: 0;
-      padding: 0;
-      color: white;
+      font-family: Arial, sans-serif;
       background: #0f0f0f;
+      color: white;
+      padding: 20px;
     }
-    header {
-      text-align: center;
-      padding: 40px 20px 20px;
-    }
-    .logo-circle {
-      width: 90px;
-      height: 90px;
-      border-radius: 50%;
-      border: 3px solid #00ffe0;
-      margin-bottom: 10px;
-    }
-    h1 {
+    h2 {
       color: #00ffe0;
-      font-size: 1.8rem;
-      margin: 0;
+      text-align: center;
     }
-    .swiper {
-      width: 100%;
-      padding: 20px 0;
-    }
-    .swiper-slide {
+    .box {
+      max-width: 500px;
+      margin: 20px auto;
       background: #1a1a1a;
+      padding: 20px;
       border-radius: 10px;
-      padding: 10px;
-      text-align: center;
-      width: 250px;
+      box-shadow: 0 0 10px rgba(0,255,224,0.2);
     }
-    .swiper-slide img {
+    input, textarea, select, button {
       width: 100%;
-      height: 150px;
-      object-fit: cover;
-      border-radius: 8px;
-    }
-    .btn {
-      display: inline-block;
-      background: #00ffe0;
-      color: black;
-      padding: 6px 12px;
-      border-radius: 6px;
-      text-decoration: none;
-      margin: 5px 5px;
-      font-size: 0.9rem;
-    }
-    .checkout {
-      text-align: center;
-      margin: 30px;
-    }
-    .checkout textarea, .checkout input, .checkout select {
-      width: 80%;
+      padding: 10px;
       margin: 10px 0;
-      padding: 10px;
-      border-radius: 8px;
       border: 1px solid #00ffe0;
-      background: #1a1a1a;
-      color: #00ffe0;
+      border-radius: 6px;
+      background: #0f0f0f;
+      color: white;
     }
-    .qris-img {
-      max-width: 200px;
-      border-radius: 10px;
-      margin: 10px auto;
-      display: none;
+    button {
+      background: #00ffe0;
+      color: #111;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    th, td {
+      padding: 10px;
+      border: 1px solid #444;
+      text-align: left;
+    }
+    th {
+      background: #00ffe0;
+      color: #111;
+    }
+    tr:nth-child(even) {
+      background-color: #1a1a1a;
+    }
+    .clear-btn {
+      background: red;
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 10px;
     }
   </style>
 </head>
 <body>
-<header>
-  <img src="https://g.top4top.io/p_347205kts1.jpg" class="logo-circle" />
-  <h1>HanzyyOffc Produk</h1>
-  <p>Digital Produk Unggulan & Script</p>
-</header>
 
-<!-- SLIDER PRODUK -->
-<div class="swiper mySwiper">
-  <div class="swiper-wrapper" id="sliderContainer"></div>
-</div>
-
-<!-- CHECKOUT AREA -->
-<div class="checkout">
-  <h2>🛒 Checkout</h2>
-  <input type="text" id="namaPembeli" placeholder="Masukkan nama kamu" />
-  <select id="metodeBayar" onchange="showQRIS()">
+<div class="box" id="formCheckout">
+  <h2>🛒 Form Checkout</h2>
+  <input type="text" id="nama" placeholder="Nama Kamu">
+  <select id="metode">
+    <option value="">Pilih Metode Pembayaran</option>
     <option value="QRIS">QRIS</option>
-    <option value="DANA">DANA</option>
-    <option value="OVO">OVO</option>
-  </select><br>
-  <textarea id="checkoutData" readonly></textarea><br>
-  <img id="qrisImg" class="qris-img" src="https://k.top4top.io/p_3474n29381.jpg" alt="QRIS Pembayaran" />
-  <br>
-  <a class="btn" onclick="checkoutWA()">📱 Kirim ke WhatsApp</a>
-  <a class="btn" onclick="checkoutTelegram()">📨 Kirim ke Telegram</a>
+    <option value="Dana">Dana</option>
+    <option value="Gopay">Gopay</option>
+  </select>
+  <textarea id="detail" placeholder="Detail pesanan (produk, harga, catatan, dll)"></textarea>
+  <button onclick="kirimCheckout()">✅ Kirim Checkout</button>
 </div>
 
-<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+<div class="box" id="loginArea">
+  <h2>🔒 Login Admin</h2>
+  <input type="password" id="adminPass" placeholder="Masukkan password admin">
+  <button onclick="cekLogin()">Masuk</button>
+</div>
+
+<div id="panelArea" style="display:none">
+  <h2>📋 Riwayat Checkout Pembeli</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Nama</th>
+        <th>Metode</th>
+        <th>Detail</th>
+        <th>Waktu</th>
+      </tr>
+    </thead>
+    <tbody id="riwayatTable"></tbody>
+  </table>
+  <div style="text-align:center">
+    <button class="clear-btn" onclick="hapusSemua()">🗑️ Hapus Semua Riwayat</button>
+  </div>
+</div>
+
 <script>
-  AOS.init();
-  const products = [
-    { title: "Script WhatsApp", desc: "Bot multi fitur.", harga: 75000, img: "https://files.catbox.moe/lx7ij2.jpg" },
-    { title: "Obfuscator JS", desc: "Proteksi script.", harga: 50000, img: "https://files.catbox.moe/lx7ij2.jpg" },
-    { title: "Struk QR Generator", desc: "Struk otomatis.", harga: 45000, img: "https://files.catbox.moe/lx7ij2.jpg" },
-    { title: "Bot Join Grup", desc: "Auto grup WA.", harga: 40000, img: "https://files.catbox.moe/lx7ij2.jpg" },
-    { title: "Bot Telegram", desc: "Respon cepat Telegram.", harga: 60000, img: "https://files.catbox.moe/lx7ij2.jpg" }
-  ];
-  const slider = document.getElementById('sliderContainer');
-  let keranjang = [];
-  products.forEach((p, i) => {
-    const el = document.createElement('div');
-    el.className = 'swiper-slide';
-    el.innerHTML = `
-      <img src="${p.img}" alt="${p.title}" />
-      <h3>${p.title}</h3>
-      <p>${p.desc}</p>
-      <p>Rp${p.harga.toLocaleString()}</p>
-      <a class="btn" onclick="addToCart(${i})">🛒 Tambah</a>
-    `;
-    slider.appendChild(el);
-  });
-  new Swiper(".mySwiper", {
-    slidesPerView: 'auto',
-    spaceBetween: 15,
-    freeMode: true,
-  });
-  function addToCart(index) {
-    keranjang.push(products[index]);
-    alert(`✅ ${products[index].title} ditambahkan ke keranjang.`);
-    updateCheckoutText();
-  }
-  function updateCheckoutText() {
-    let isi = "";
-    let total = 0;
-    keranjang.forEach((item, i) => {
-      isi += `${i+1}. ${item.title} - Rp${item.harga.toLocaleString()}\n`;
-      total += item.harga;
+  const passwordAdmin = "hanzyyadmin123";
+
+  function kirimCheckout() {
+    const nama = document.getElementById('nama').value.trim();
+    const metode = document.getElementById('metode').value;
+    const detail = document.getElementById('detail').value.trim();
+    if (!nama || !metode || !detail) {
+      alert('Harap isi semua data!');
+      return;
+    }
+    const riwayat = JSON.parse(localStorage.getItem('riwayatCheckout')) || [];
+    riwayat.push({
+      nama,
+      metode,
+      detail,
+      waktu: new Date().toLocaleString()
     });
-    isi += `\nTotal: Rp${total.toLocaleString()}`;
-    document.getElementById('checkoutData').value = isi;
+    localStorage.setItem('riwayatCheckout', JSON.stringify(riwayat));
+    alert('✅ Data checkout berhasil disimpan!');
+    document.getElementById('nama').value = '';
+    document.getElementById('metode').value = '';
+    document.getElementById('detail').value = '';
   }
-  function showQRIS() {
-    const metode = document.getElementById("metodeBayar").value;
-    const qris = document.getElementById("qrisImg");
-    qris.style.display = metode === "QRIS" ? "block" : "none";
-  }
-  async function kirimNotifikasiTelegram(pesan) {
-    const token = "7916388602:AAG1oh3j-1Hbpfg4AJu3Y7gcyu_9SiC3PR4";
-    const chatID = "-1002526485120";
-    const url = `https://api.telegram.org/bot${token}/sendMessage`;
-    try {
-      await fetch(url, {
-        method: "POST",
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          chat_id: chatID,
-          text: pesan,
-          parse_mode: "Markdown"
-        })
-      });
-    } catch (err) {
-      console.error("Gagal kirim ke Telegram:", err);
+
+  function cekLogin() {
+    const input = document.getElementById('adminPass').value;
+    if (input === passwordAdmin) {
+      document.getElementById('loginArea').style.display = 'none';
+      document.getElementById('panelArea').style.display = 'block';
+      tampilkanRiwayat();
+    } else {
+      alert('Password salah!');
     }
   }
-  function formatCheckoutText() {
-    const nama = document.getElementById('namaPembeli').value.trim() || "(Tanpa nama)";
-    const metode = document.getElementById('metodeBayar').value;
-    let isi = `*🛒 Checkout Baru*\n\n*👤 Nama:* ${nama}\n*💳 Metode:* ${metode}\n\n*📦 Produk:*\n`;
-    let total = 0;
-    keranjang.forEach((item, i) => {
-      isi += `${i + 1}. ${item.title} — Rp${item.harga.toLocaleString()}\n`;
-      total += item.harga;
+
+  function tampilkanRiwayat() {
+    const data = JSON.parse(localStorage.getItem('riwayatCheckout')) || [];
+    const tbody = document.getElementById('riwayatTable');
+    tbody.innerHTML = '';
+    if (data.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="4" style="text-align:center">Belum ada data.</td></tr>';
+      return;
+    }
+    data.forEach(item => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>${item.nama}</td>
+        <td>${item.metode}</td>
+        <td><pre style="white-space:pre-wrap">${item.detail}</pre></td>
+        <td>${item.waktu}</td>
+      `;
+      tbody.appendChild(tr);
     });
-    const waktu = new Date().toLocaleString('id-ID', { timeZone: 'Asia/Jakarta' });
-    isi += `\n💰 *Total:* Rp${total.toLocaleString()}`;
-    isi += `\n📅 Waktu: ${waktu}`;
-    return isi;
   }
-  function checkoutWA() {
-    if (keranjang.length === 0) return alert("Keranjang kosong!");
-    const isi = formatCheckoutText();
-    kirimNotifikasiTelegram(isi);
-    const url = `https://wa.me/6288989566141?text=${encodeURIComponent(isi.replace(/\*/g, ''))}`;
-    window.open(url, '_blank');
-  }
-  function checkoutTelegram() {
-    if (keranjang.length === 0) return alert("Keranjang kosong!");
-    const isi = formatCheckoutText();
-    kirimNotifikasiTelegram(isi);
-    const url = `https://t.me/share/url?url=https://hanzyy.site&text=${encodeURIComponent(isi.replace(/\*/g, ''))}`;
-    window.open(url, '_blank');
+
+  function hapusSemua() {
+    if (confirm('Yakin ingin menghapus semua riwayat?')) {
+      localStorage.removeItem('riwayatCheckout');
+      tampilkanRiwayat();
+    }
   }
 </script>
 </body>

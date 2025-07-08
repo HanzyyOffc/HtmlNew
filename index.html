@@ -2,188 +2,260 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>HanzyyOffc Produk</title>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <style>
-    /* RESET */
-    * {margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif;}
-
     body {
+      font-family: 'Poppins', sans-serif;
       background: #0f0f0f;
       color: white;
-      overflow-x: hidden;
+      margin: 0;
+      padding: 0;
     }
-
-    /* LOADING SCREEN */
-    #loader {
-      position: fixed;
-      inset: 0;
-      background: black;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 9999;
-      animation: fadeOut 2s forwards 3s;
-    }
-
-    .anime-text {
-      font-family: 'Orbitron', sans-serif;
-      font-size: 2rem;
-      color: #00ffe0;
-      animation: flicker 1s infinite alternate;
-    }
-
-    @keyframes flicker {
-      0% { opacity: 0.3; text-shadow: 0 0 5px #00ffe0; }
-      100% { opacity: 1; text-shadow: 0 0 20px #00ffe0, 0 0 30px #00ffe0; }
-    }
-
-    @keyframes fadeOut {
-      to {opacity: 0; visibility: hidden;}
-    }
-
-    /* HEADER */
     header {
-      padding: 60px 20px 20px;
       text-align: center;
-      animation: slideDown 1.5s ease-out;
+      padding: 40px 20px 20px;
     }
-
-    header h1 {
-      font-size: 2.5rem;
-      color: #00ffe0;
+    .logo-circle {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      border: 4px solid #00ffe0;
       margin-bottom: 10px;
     }
-
-    header p {
-      font-size: 1rem;
-      color: #ccc;
-    }
-
-    @keyframes slideDown {
-      0% {transform: translateY(-50px); opacity: 0;}
-      100% {transform: translateY(0); opacity: 1;}
-    }
-
-    /* PRODUK GRID */
+    h1 { color: #00ffe0; }
     .products {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
       gap: 20px;
-      padding: 40px 20px;
+      padding: 20px;
     }
-
     .card {
       background: #1a1a1a;
       border-radius: 12px;
-      overflow: hidden;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      padding: 10px;
+      animation: fadeIn 0.3s ease forwards;
+      transform: scale(0.95);
+      opacity: 0;
     }
-
-    .card:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 0 20px rgba(0,255,224,0.2);
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
     }
-
     .card img {
       width: 100%;
-      height: 180px;
+      border-radius: 8px;
+      height: 160px;
       object-fit: cover;
     }
-
     .card-content {
-      padding: 15px;
+      padding: 10px;
     }
-
     .card-content h3 {
-      margin-bottom: 8px;
       color: #00ffe0;
+      margin-bottom: 5px;
     }
-
     .btn {
       display: inline-block;
       margin-top: 10px;
-      padding: 10px 15px;
       background: #00ffe0;
       color: black;
+      padding: 8px 12px;
       border-radius: 8px;
-      font-weight: bold;
       text-decoration: none;
-      transition: 0.2s ease;
+      margin-right: 5px;
     }
-
-    .btn:hover {
-      background: #00ccba;
+    select, input[type=text] {
+      padding: 8px;
+      background: #1a1a1a;
+      color: #00ffe0;
+      border: 1px solid #00ffe0;
+      border-radius: 6px;
+      margin: 5px;
     }
-
-    /* FOOTER / CHANNEL */
+    .pagination {
+      text-align: center;
+      margin-top: 20px;
+    }
+    .pagination button {
+      padding: 8px 15px;
+      margin: 5px;
+      border: none;
+      background: #00ffe0;
+      color: black;
+      border-radius: 6px;
+      cursor: pointer;
+    }
     footer {
       text-align: center;
-      padding: 30px 20px;
+      padding: 20px;
       font-size: 14px;
       color: #aaa;
-      background: #111;
     }
-
-    footer a {
-      color: #00ffe0;
-      text-decoration: none;
-    }
-
-    footer a:hover {
-      text-decoration: underline;
+    #notif {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: #00ffe0;
+      color: black;
+      padding: 10px;
+      border-radius: 8px;
+      display: none;
+      z-index: 999;
     }
   </style>
 </head>
 <body>
-  <!-- LOADING -->
-  <div id="loader">
-    <div class="anime-text">⚡ Memuat Hanzyy Produk...</div>
-  </div>
 
-  <!-- HEADER -->
-  <header>
-    <h1>🛒 HanzyyOffc Shop</h1>
-    <p>Produk digital & script pilihan terbaik!</p>
-  </header>
+<div id="notif">✅ Produk ditambahkan ke keranjang!</div>
 
-  <!-- PRODUK -->
-  <section class="products">
-    <div class="card">
-      <img src="https://via.placeholder.com/300x180?text=Script+WA+Bot" alt="Produk 1">
-      <div class="card-content">
-        <h3>Script Bot WhatsApp</h3>
-        <p>Fitur lengkap, anti-crash, cocok untuk jualan.</p>
-        <a class="btn" href="https://t.me/XyHanzyy" target="_blank">Beli via Telegram</a>
-      </div>
-    </div>
+<header>
+  <img src="https://files.catbox.moe/lx7ij2.jpg" class="logo-circle" />
+  <h1>HanzyyOffc Shop</h1>
+  <p>Produk digital & script pilihan terbaik</p>
+</header>
 
-    <div class="card">
-      <img src="https://via.placeholder.com/300x180?text=Obfuscator+Tool" alt="Produk 2">
-      <div class="card-content">
-        <h3>Obfuscator JS</h3>
-        <p>Proteksi script kamu dari pencuri kode.</p>
-        <a class="btn" href="https://t.me/XyHanzyy" target="_blank">Beli via Telegram</a>
-      </div>
-    </div>
+<div style="text-align: center;">
+  <input type="text" id="searchInput" placeholder="Cari produk..." oninput="filterProduk()">
+  <select id="kategoriSelect" onchange="filterProduk()">
+    <option value="all">Semua Kategori</option>
+    <option value="whatsapp">WhatsApp</option>
+    <option value="telegram">Telegram</option>
+    <option value="tools">Tools</option>
+    <option value="panel">Panel</option>
+  </select>
+  <select id="sortSelect" onchange="filterProduk()">
+    <option value="termurah">Harga Termurah</option>
+    <option value="termahal">Harga Termahal</option>
+  </select>
+  <button onclick="lihatKeranjang()">🛒 Lihat Keranjang</button>
+</div>
 
-    <div class="card">
-      <img src="https://via.placeholder.com/300x180?text=Premium+Tools" alt="Produk 3">
-      <div class="card-content">
-        <h3>Tools Premium</h3>
-        <p>Berbagai alat untuk WhatsApp & Telegram Bot.</p>
-        <a class="btn" href="https://t.me/XyHanzyy" target="_blank">Beli via Telegram</a>
-      </div>
-    </div>
+<div class="products" id="productContainer"></div>
 
-    <!-- Tambah produk sesuka hati -->
-  </section>
+<div class="pagination">
+  <button onclick="changePage(-1)">← Sebelumnya</button>
+  <button onclick="changePage(1)">Berikutnya →</button>
+</div>
 
-  <!-- FOOTER -->
-  <footer>
-    📢 Channel resmi: <a href="https://whatsapp.com/channel/0029VbAyHKY1dAw4yEpr0u0J" target="_blank">Klik untuk join WhatsApp Channel</a><br/>
-    &copy; 2025 HanzyyOffc. All rights reserved.
-  </footer>
+<footer>
+  📢 Channel: <a href="https://whatsapp.com/channel/0029VbAyHKY1dAw4yEpr0u0J" target="_blank">WhatsApp Channel</a><br>
+  &copy; 2025 HanzyyOffc
+</footer>
+
+<script>
+  const allProducts = [
+    { title: "Script WhatsApp", desc: "Bot multi fitur.", kategori: "whatsapp", harga: 75000, img: "https://via.placeholder.com/300x180?text=WA+Bot" },
+    { title: "Obfuscator JS", desc: "Proteksi script.", kategori: "tools", harga: 50000, img: "https://via.placeholder.com/300x180?text=Obfuscator" },
+    { title: "Struk QR Generator", desc: "Struk otomatis.", kategori: "tools", harga: 45000, img: "https://via.placeholder.com/300x180?text=Struk" },
+    { title: "Bot Telegram", desc: "Auto reply.", kategori: "telegram", harga: 60000, img: "https://via.placeholder.com/300x180?text=Telegram" },
+    { title: "Panel Hosting", desc: "Deploy script.", kategori: "panel", harga: 100000, img: "https://via.placeholder.com/300x180?text=Hosting" },
+    { title: "Tools Premium", desc: "Alat digital.", kategori: "tools", harga: 80000, img: "https://via.placeholder.com/300x180?text=Tools" }
+  ];
+
+  let filteredProducts = [...allProducts];
+  let currentPage = 0;
+  const perPage = 3;
+
+  function renderPage() {
+    const container = document.getElementById('productContainer');
+    container.innerHTML = '';
+    const start = currentPage * perPage;
+    const items = filteredProducts.slice(start, start + perPage);
+
+    if (items.length === 0) {
+      container.innerHTML = '<p style="text-align:center;">Produk tidak ditemukan.</p>';
+      return;
+    }
+
+    items.forEach(item => {
+      container.innerHTML += `
+        <div class="card">
+          <img src="${item.img}" alt="${item.title}">
+          <div class="card-content">
+            <h3>${item.title}</h3>
+            <p>${item.desc}</p>
+            <p>Harga: Rp${item.harga.toLocaleString()}</p>
+            <a class="btn" onclick="tambahKeranjang('${item.title}', ${item.harga})">🛒 Tambah</a>
+            <a class="btn" href="https://t.me/XyHanzyy" target="_blank">📩 Beli</a>
+          </div>
+        </div>
+      `;
+    });
+  }
+
+  function filterProduk() {
+    const keyword = document.getElementById('searchInput').value.toLowerCase();
+    const kategori = document.getElementById('kategoriSelect').value;
+    const sort = document.getElementById('sortSelect').value;
+
+    filteredProducts = allProducts.filter(p =>
+      (p.title.toLowerCase().includes(keyword) || p.desc.toLowerCase().includes(keyword)) &&
+      (kategori === 'all' || p.kategori === kategori)
+    );
+
+    if (sort === 'termurah') {
+      filteredProducts.sort((a, b) => a.harga - b.harga);
+    } else {
+      filteredProducts.sort((a, b) => b.harga - a.harga);
+    }
+
+    currentPage = 0;
+    renderPage();
+  }
+
+  function changePage(offset) {
+    const maxPage = Math.floor(filteredProducts.length / perPage);
+    currentPage += offset;
+    if (currentPage < 0) currentPage = 0;
+    if (currentPage > maxPage) currentPage = maxPage;
+    renderPage();
+  }
+
+  function tambahKeranjang(nama, harga) {
+    const keranjang = JSON.parse(localStorage.getItem('keranjang')) || [];
+    keranjang.push({ nama, harga });
+    localStorage.setItem('keranjang', JSON.stringify(keranjang));
+    tampilkanNotifikasi('✅ Produk ditambahkan ke keranjang!');
+  }
+
+  function tampilkanNotifikasi(pesan) {
+    const notif = document.getElementById('notif');
+    notif.innerText = pesan;
+    notif.style.display = 'block';
+    setTimeout(() => notif.style.display = 'none', 3000);
+  }
+
+  function lihatKeranjang() {
+    const keranjang = JSON.parse(localStorage.getItem('keranjang')) || [];
+    if (keranjang.length === 0) return alert('Keranjang kosong.');
+
+    let isi = '🛍️ Daftar Keranjang:\\n';
+    let total = 0;
+    keranjang.forEach((item, i) => {
+      isi += `${i + 1}. ${item.nama} - Rp${item.harga.toLocaleString()}\\n`;
+      total += item.harga;
+    });
+    isi += `\\n💰 Total: Rp${total.toLocaleString()}`;
+    isi += `\\n\\n❌ Masukkan nomor item yang ingin dihapus (atau kosongkan):`;
+
+    const hapus = prompt(isi);
+    if (hapus && !isNaN(hapus)) hapusItemKeranjang(parseInt(hapus) - 1);
+  }
+
+  function hapusItemKeranjang(index) {
+    const keranjang = JSON.parse(localStorage.getItem('keranjang')) || [];
+    if (index >= 0 && index < keranjang.length) {
+      const nama = keranjang[index].nama;
+      keranjang.splice(index, 1);
+      localStorage.setItem('keranjang', JSON.stringify(keranjang));
+      tampilkanNotifikasi(`❌ ${nama} dihapus dari keranjang`);
+    }
+  }
+
+  window.onload = renderPage;
+</script>
 </body>
 </html>
